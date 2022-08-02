@@ -7,6 +7,16 @@ describe('backend-express-template routes', () => {
   beforeEach(() => {
     return setup(pool);
   });
+  it('#GET /authors should return an author\'s id and name', async () => {
+    const res = await request(app).get('/authors');
+    expect(res.status).toBe(200);
+    expect(res.body.length).toBe(5);
+    expect(res.body[0]).toEqual({
+      id: '1',
+      name: 'Will Wight'
+    });
+  });
+  
   it('#GET /books should return a list of books id, title, and released date', async () => {
     const res = await request(app).get('/books');
     expect(res.status).toBe(200);
