@@ -7,6 +7,7 @@ CREATE TABLE books (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     title VARCHAR,
     released INT
+    FOREIGN KEY (author_id) REFERENCES authors(id) 
 );
 
 INSERT INTO books (
@@ -25,7 +26,8 @@ CREATE TABLE authors (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     name VARCHAR,
     dob VARCHAR,
-    pob VARCHAR
+    pob VARCHAR,
+    FOREIGN KEY (book_id) REFERENCES books(id)
 );
 INSERT INTO authors (
     name,

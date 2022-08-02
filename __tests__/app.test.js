@@ -16,6 +16,15 @@ describe('backend-express-template routes', () => {
       name: 'Will Wight'
     });
   });
+  it('#GET /authors/:id should return a specific author\'s name, dob, pob, and books object', async () => {
+    const res = await request(app).get('/authors/2');
+    expect(res.body).toEqual({
+      name: expect.any(String),
+      dob: expect.any(String),
+      pob: expect.any(String),
+      books: expect.any(Array),
+    });
+  });
   
   it('#GET /books should return a list of books id, title, and released date', async () => {
     const res = await request(app).get('/books');
