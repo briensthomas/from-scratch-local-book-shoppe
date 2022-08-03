@@ -7,10 +7,23 @@ describe('backend-express-template routes', () => {
   beforeEach(() => {
     return setup(pool);
   });
+  it('#POST /authors should add a new author', async () => {
+    const newAuthor = {
+      name: 'Brandon Sanderson',
+      dob: '12/19/1975',
+      pob: 'Lincoln, NE',
+    };
+    const res = await request(app).post('/authors').send(newAuthor);
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual({
+      id: expect.any(String),
+      ...newAuthor
+    });
+  });
   it('#GET /authors should return an author\'s id and name', async () => {
     const res = await request(app).get('/authors');
     expect(res.status).toBe(200);
-    expect(res.body.length).toBe(5);
+    expect(res.body.length).toBe(6);
     expect(res.body[0]).toEqual({
       id: '1',
       name: 'Will Wight'
