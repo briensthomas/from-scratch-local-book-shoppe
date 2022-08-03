@@ -16,6 +16,7 @@ describe('backend-express-template routes', () => {
       name: 'Will Wight'
     });
   });
+
   it('#GET /authors/:id should return a specific author\'s name, dob, pob, and books object', async () => {
     const res = await request(app).get('/authors/2');
     expect(res.body).toEqual({
@@ -26,30 +27,44 @@ describe('backend-express-template routes', () => {
       books: expect.any(Array),
     });
   });
-  
-  it('#GET /books should return a list of books id, title, and released date', async () => {
-    const res = await request(app).get('/books');
-    expect(res.status).toBe(200);
-    expect(res.body.length).toBe(5);
-    expect(res.body[0]).toEqual({
-      id: '1',
-      title: 'Dreadgod',
-      released: 2022,
-    });
-  });
 
-  it('#GET /books/:id should return a specific books it, title, released date and authors array', async () => {
-    const res = await request(app).get('/books/1');
+  it('#POST /books/ should add a new book', async () => {
+    const res = await request(app).post('/books/').send({
+      title: 'Rhythm of War',
+      released: 2020
+    });
+    expect(res.status).toBe(200);
     expect(res.body).toEqual({
       id: expect.any(String),
       title: expect.any(String),
       released: expect.any(Number),
-      authors: expect.any(Array),
     });
   });
-  afterAll(() => {
-    pool.end();
+
+});
+it('#GET /books should return a list of books id, title, and released date', async () => {
+  const res = await request(app).get('/books');
+  expect(res.status).toBe(200);
+  expect(res.body.length).toBe(6);
+  expect(res.body[0]).toEqual({
+    id: '1',
+    title: 'Dreadgod',
+    released: 2022,
   });
 });
+
+it('#GET /books/:id should return a specific books it, title, released date and authors array', async () => {
+  const res = await request(app).get('/books/1');
+  expect(res.body).toEqual({
+    id: expect.any(String),
+    title: expect.any(String),
+    released: expect.any(Number),
+    authors: expect.any(Array),
+  });
+});
+afterAll(() => {
+  pool.end();
+});
+
 
 
