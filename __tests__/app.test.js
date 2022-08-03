@@ -8,36 +8,27 @@ describe('backend-express-template routes', () => {
     return setup(pool);
   });
   it('#POST /authors should add a new author', async () => {
-    const newAuthor = {
+    const res = await request(app).post('/authors').send({ 
       name: 'Brandon Sanderson',
       dob: '12/19/1975',
-      pob: 'Lincoln, NE',
-    };
-    const res = await request(app).post('/authors').send(newAuthor);
-    expect(res.status).toBe(200);
-    expect(res.body).toEqual({
-      id: expect.any(String),
-      ...newAuthor
-    });
-  });
-  it('#GET /authors should return an author\'s id and name', async () => {
-    const res = await request(app).get('/authors');
-    expect(res.status).toBe(200);
-    expect(res.body.length).toBe(6);
-    expect(res.body[0]).toEqual({
-      id: '1',
-      name: 'Will Wight'
-    });
-  });
+      pob: 'Lincoln, NE', });
 
-  it('#GET /authors/:id should return a specific author\'s name, dob, pob, and books object', async () => {
-    const res = await request(app).get('/authors/2');
+    expect(res.status).toBe(200);
     expect(res.body).toEqual({
       id: expect.any(String),
       name: expect.any(String),
       dob: expect.any(String),
       pob: expect.any(String),
-      books: expect.any(Array),
+    });
+  });
+
+  it('#GET /authors should return an author\'s id and name', async () => {
+    const res = await request(app).get('/authors');
+    expect(res.status).toBe(200);
+    expect(res.body.length).toBe(5);
+    expect(res.body[0]).toEqual({
+      id: '1',
+      name: 'Will Wight'
     });
   });
 
@@ -54,11 +45,22 @@ describe('backend-express-template routes', () => {
     });
   });
 
+  it('#GET /authors/:id should return a specific author\'s name, dob, pob, and books object', async () => {
+    const res = await request(app).get('/authors/2');
+    expect(res.body).toEqual({
+      id: expect.any(String),
+      name: expect.any(String),
+      dob: expect.any(String),
+      pob: expect.any(String),
+      books: expect.any(Array),
+    });
+  });
+
 });
 it('#GET /books should return a list of books id, title, and released date', async () => {
   const res = await request(app).get('/books');
   expect(res.status).toBe(200);
-  expect(res.body.length).toBe(6);
+  expect(res.body.length).toBe(5);
   expect(res.body[0]).toEqual({
     id: '1',
     title: 'Dreadgod',
