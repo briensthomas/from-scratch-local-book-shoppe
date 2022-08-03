@@ -15,6 +15,7 @@ describe('backend-express-template routes', () => {
       id: '1',
       name: 'Will Wight'
     });
+    // expect(res.body.books[0]).toHaveProperty('id');
   });
   it('#GET /authors/:id should return a specific author\'s name, dob, pob, and books object', async () => {
     const res = await request(app).get('/authors/2');
