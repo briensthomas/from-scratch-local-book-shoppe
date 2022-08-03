@@ -15,7 +15,6 @@ describe('backend-express-template routes', () => {
       id: '1',
       name: 'Will Wight'
     });
-    // expect(res.body.books[0]).toHaveProperty('id');
   });
   it('#GET /authors/:id should return a specific author\'s name, dob, pob, and books object', async () => {
     const res = await request(app).get('/authors/2');
@@ -36,6 +35,16 @@ describe('backend-express-template routes', () => {
       id: '1',
       title: 'Dreadgod',
       released: 2022,
+    });
+  });
+
+  it('#GET /books/:id should return a specific books it, title, released date and authors array', async () => {
+    const res = await request(app).get('/books/1');
+    expect(res.body).toEqual({
+      id: expect.any(String),
+      title: expect.any(String),
+      released: expect.any(Number),
+      authors: expect.any(Array),
     });
   });
   afterAll(() => {
